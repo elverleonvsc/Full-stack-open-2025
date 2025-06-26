@@ -13,8 +13,8 @@ const Filter = (props) => {
     <div>
       
         {objFilterNames.map(i=> 
-         <div key={i.name}>
-         <p>{i.name} {i.phone}</p>
+         <div key={i.id}>
+         <p>{i.name} {i.number}</p>
           </div>
          )}
         
