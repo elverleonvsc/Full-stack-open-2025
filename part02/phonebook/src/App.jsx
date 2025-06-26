@@ -12,17 +12,10 @@ const App = () => {
   const [filterText, setFilter] = useState('')
  
   useEffect( () => {
-    console.log('efect');
-    
     axios
     .get('http://localhost:3001/persons')
     .then( result => setPersons(result.data)
-
-    
-    
     )
-  
-    
   },[])
   
 
