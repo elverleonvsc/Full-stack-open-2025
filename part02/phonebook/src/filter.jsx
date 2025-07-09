@@ -6,7 +6,7 @@ const Filter = (props) => {
   }
   const objFilterNames = filterName(props.persons,props.filterText)
   
-
+ 
 
   return (
     
@@ -14,7 +14,13 @@ const Filter = (props) => {
       
         {objFilterNames.map(i=> 
          <div key={i.id}>
-         <p>{i.name} {i.number}</p>
+          <div>
+            {i.name} {i.number} 
+            <button onClick={()=> props.onDelete(i.id)}>delete</button>
+          </div>
+         
+
+         
           </div>
          )}
         
