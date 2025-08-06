@@ -1,9 +1,17 @@
+
 const express = require('express')
 
 const app = express()
-
-
 app.use(express.json())
+
+const cors = require('cors')
+app.use(cors())
+
+var morgan = require('morgan')
+
+morgan.token('body', req => JSON.stringify(req.body))
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let persons = [
     { 
@@ -29,17 +37,43 @@ let persons = [
 ]
 
 
+  let notes = [
+    {
+      "id": "1",
+      "content": "HTML is easy",
+      "important": true
+    },
+    {
+      "id": "2",
+      "content": "Browser can execute only JavaScript",
+      "important": false
+    },
+    {
+      "id": "3",
+      "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": false
+    },
+    {
+      "id": "db92",
+      "content": "this is a note",
+      "important": false
+    },
+    {
+      "id": "3df1",
+      "content": "dsa",
+      "important": true
+    },
+    {
+      "id": "48d5",
+      "content": "",
+      "important": false
+    }
+  ]
+
 
 const time = new Date()
 
 const total = persons.length
-
- 
- 
-
-
-
-
 
 
 
@@ -51,6 +85,11 @@ app.get('/', (resquest,responde) => {
 app.get('/api/persons', (req, res) => {
     res.json(persons)
 })
+
+app.get('/api/notes', (req, res) => {
+    res.json(notes)
+})
+
 
 app.get('/api/persons/:id', (req, res) => {
 
@@ -65,15 +104,16 @@ app.get('/api/persons/:id', (req, res) => {
 
 app.delete('/api/persons/:id', (req,res) => {
   const id = req.params.id
-  personDelete = persons.filter(p => p.id !== id)
-  res.json(personDelete)
+  persons = persons.filter(p => p.id !== id)
+
+
+  res.json(persons)
 })
 
 const generateId = ()=>{
    return Math.random() * 10000
   
 }
-
 
 
 
@@ -99,20 +139,26 @@ app.post('/api/persons' ,(req,res)=> {
   persons = persons.concat(person)
   res.json(person)
   }
- 
+  
+   
 })
+
+
+
+
 
 app.get('/info', (req,res) => {
   res.send(`
     <p>Phonebook has in for ${total} people</p>
     <p>${time}</p>
     `)
+   
 })
 
 
-const port = 3001
+const PORT = process.env.PORT || 3001
 
-app.listen(port, () => {
+app.listen(PORT, () => {
     console.log(`Example app listening on port ${port}`);
     
 })
